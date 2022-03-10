@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { BiSearch } from 'react-icons/bi';
 import { DropDown } from './DropDown';
+import { useGetPokemonByNameQuery } from '../services/pokemon';
 const datas = [
   { name: "Klatskin's tumor", id: 125 },
   { name: '간세포암', id: 133 },
@@ -24,6 +25,8 @@ function Search() {
   const [options, setOptions] = useState([]);
   const [selected, setSelected] = useState(-1);
   const [message, setMessage] = useState('');
+  const { data, error, isLoading } = useGetPokemonByNameQuery('암');
+  console.log(data);
   // 검색어 message
   useEffect(() => {
     setMessage('로딩중...');
