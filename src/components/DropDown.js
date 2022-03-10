@@ -2,10 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import { BiSearch } from 'react-icons/bi';
 
-export const DropDown = ({ message, options, selected, handleDropDownClick }) => {
+export const DropDown = ({ isLoading, options, selected, handleDropDownClick }) => {
   return (
     <Suggest>
-      <Header>{message}</Header>
+      <Header>{isLoading ? '로딩 중...' : options?.length < 1 ? '검색어 없음' : '추천 검색어'}</Header>
       {options?.map((option, index) => (
         <List
           className={selected === index ? 'selected' : ''}
