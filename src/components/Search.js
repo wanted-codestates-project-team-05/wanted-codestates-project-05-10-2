@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { BiSearch } from 'react-icons/bi';
 import { DropDown } from './DropDown';
-import { useGetPokemonByNameQuery } from '../services/pokemon';
+import { useGetDiseaseNameQuery } from '../services/diseaseApi';
 
 function Search() {
   const [hasText, setHasText] = useState(false);
   const [keyword, setKeyword] = useState('');
   const [selected, setSelected] = useState(-1);
-  const { data, error, isLoading, isFetching } = useGetPokemonByNameQuery(keyword);
+  const { data, error, isLoading, isFetching } = useGetDiseaseNameQuery(keyword, { skip: !keyword });
   // 검색어 유무 확인
   useEffect(() => {
     if (keyword === '') {
@@ -39,12 +39,6 @@ function Search() {
     }
   };
 
-  if (error) {
-    console.log(error.data.name);
-  }
-  if (isFetching) {
-    console.log(isFetching);
-  }
   return (
     <Wrapper>
       <Container>
