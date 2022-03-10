@@ -5,16 +5,16 @@ import { BiSearch } from 'react-icons/bi';
 export const DropDown = ({ message, options, selected, handleDropDownClick }) => {
   return (
     <Suggest>
-      <ListHeader>{message}</ListHeader>
+      <Header>{message}</Header>
       {options?.map((option, index) => (
-        <Listitem
+        <List
           className={selected === index ? 'selected' : ''}
           key={option.id}
           onClick={() => handleDropDownClick(option)}
         >
           <div>{option.name}</div>
-          <SuggestIcons />
-        </Listitem>
+          <SearchIcons />
+        </List>
       ))}
     </Suggest>
   );
@@ -30,14 +30,14 @@ const Suggest = styled.ul`
   padding-bottom: 10px;
 `;
 
-const ListHeader = styled.li`
+const Header = styled.li`
   padding: 15px 0 0 20px;
   font-size: 14px;
   color: rgb(106, 115, 123);
   line-height: 1.6;
   margin-bottom: 10px;
 `;
-const Listitem = styled.li`
+const List = styled.li`
   position: relative;
   display: flex;
   align-items: center;
@@ -57,7 +57,7 @@ const Listitem = styled.li`
   }
 `;
 
-const SuggestIcons = styled(BiSearch)`
+const SearchIcons = styled(BiSearch)`
   position: absolute;
   left: 12px;
   top: 10px;

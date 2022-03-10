@@ -23,8 +23,19 @@ function Search() {
   const [keyword, setKeyword] = useState('');
   const [options, setOptions] = useState([]);
   const [selected, setSelected] = useState(-1);
-  const [message, setMessage] = useState('찾은 검색어');
-
+  const [message, setMessage] = useState('');
+  // 검색어 message
+  useEffect(() => {
+    setMessage('로딩중...');
+    setTimeout(() => {
+      if (options.length < 1) {
+        setMessage('검색어 없음');
+      } else {
+        setMessage('추천 검색어');
+      }
+    }, 2000);
+  }, [options]);
+  // 검색어 유무 확인
   useEffect(() => {
     if (keyword === '') {
       setHasText(false);
@@ -36,9 +47,11 @@ function Search() {
     if (value.includes('\\')) return;
     value ? setHasText(true) : setHasText(false);
     setKeyword(value);
-    const filterRegex = new RegExp(value, 'i');
-    const resultOptions = datas.filter((data) => data.name.match(filterRegex));
-    setOptions(resultOptions);
+    if (value !== '') {
+      const filterRegex = new RegExp(value, 'i');
+      const resultOptions = datas.filter((data) => data.name.match(filterRegex));
+      setOptions(resultOptions);
+    }
   };
 
   // onClick 이벤트
@@ -71,19 +84,19 @@ function Search() {
       <Container>
         <Notice>국내 모든 임상시험 검색하고</Notice>
         <Notice>온라인으로 참여하기</Notice>
-        <SearchSection>
+        <SearchForm>
           <SearchBar>
-            <SearchInput
+            <InputBox
               type="text"
               value={keyword}
               placeholder="질환명을 입력해 주세요."
               onChange={handleInputChange}
               onKeyDown={handleKeyUp}
             />
-            <Icons />
+            <SearchIcon />
             <SearchBtn>검색</SearchBtn>
           </SearchBar>
-        </SearchSection>
+        </SearchForm>
         {hasText && (
           <DropDown message={message} options={options} selected={selected} handleDropDownClick={handleDropDownClick} />
         )}
@@ -119,7 +132,7 @@ const Notice = styled.p`
   margin-bottom: 20px;
   text-align: center;
 `;
-const SearchSection = styled.div`
+const SearchForm = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -137,7 +150,7 @@ const SearchBar = styled.div`
     width: 100%;
   }
 `;
-const SearchInput = styled.input`
+const InputBox = styled.input`
   border-radius: 42px 0 0 42px;
   width: 80%;
   height: 100%;
@@ -170,7 +183,7 @@ const SearchBtn = styled.button`
     display: none;
   }
 `;
-const Icons = styled(BiSearch)`
+const SearchIcon = styled(BiSearch)`
   position: absolute;
   cursor: pointer;
   @media screen and (min-width: 820px) {
