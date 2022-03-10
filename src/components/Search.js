@@ -3,29 +3,12 @@ import styled from 'styled-components';
 import { BiSearch } from 'react-icons/bi';
 import { DropDown } from './DropDown';
 import { useGetPokemonByNameQuery } from '../services/pokemon';
-// const datas = [
-//   { name: "Klatskin's tumor", id: 125 },
-//   { name: '간세포암', id: 133 },
-//   { name: '갑상선암종', id: 187 },
-//   { name: '고환암', id: 335 },
-//   { name: '뼈암', id: 375 },
-//   { name: '구강암', id: 445 },
-//   { name: '치은암', id: 449 },
-//   { name: '기저세포상피종', id: 642 },
-//   { name: '상피성악성종양', id: 648 },
-//   { name: '뇌암', id: 812 },
-//   { name: '담관암종', id: 893 },
-//   { name: '결장암', id: 975 },
-//   { name: '대장악성종양', id: 976 },
-//   { name: '대장의 악성신생물', id: 978 },
-// ];
+
 function Search() {
   const [hasText, setHasText] = useState(false);
   const [keyword, setKeyword] = useState('');
-  const [options, setOptions] = useState([]);
   const [selected, setSelected] = useState(-1);
-  const { data, error, isLoading } = useGetPokemonByNameQuery(keyword);
-  console.log(data);
+  const { data, error, isLoading, isFetching } = useGetPokemonByNameQuery(keyword);
   // 검색어 유무 확인
   useEffect(() => {
     if (keyword === '') {
@@ -35,41 +18,33 @@ function Search() {
   // onChange 이벤트
   const handleInputChange = (event) => {
     const { value } = event.target;
-    if (value.includes('\\')) return;
     value ? setHasText(true) : setHasText(false);
     setKeyword(value);
-    if (value !== '') {
-      const filterRegex = new RegExp(value, 'i');
-      const resultOptions = data?.filter((data) => data.name.match(filterRegex));
-      setOptions(resultOptions);
-    }
   };
-
   // onClick 이벤트
   const handleDropDownClick = (clickedOption) => {
     setKeyword(clickedOption.name);
-    const resultOptions = data?.filter((option) => option === clickedOption);
-    setOptions(resultOptions);
   };
   //  키보드로 키워드 탐색
   const handleKeyUp = (e) => {
-    if (e.keyCode === 40 && options?.length - 1 > selected) {
+    if (e.keyCode === 40 && data?.length - 1 > selected) {
       setSelected(selected + 1);
     }
     if (e.keyCode === 38 && selected >= 0) {
       setSelected(selected - 1);
     }
     if (e.code === 'Enter' && selected >= 0) {
-      handleDropDownClick(options[selected]);
+      handleDropDownClick(data[selected]);
       setSelected(-1);
     }
   };
-  // submit 기능 (form 태그 div로 바꿔 놓음)
-  // const handleSubmit = (e) => {
-  //   e.preventdefault();
-  //   console.log(keyword);
-  // };
 
+  if (error) {
+    console.log(error.data.name);
+  }
+  if (isFetching) {
+    console.log(isFetching);
+  }
   return (
     <Wrapper>
       <Container>
@@ -91,7 +66,7 @@ function Search() {
         {hasText && (
           <DropDown
             isLoading={isLoading}
-            options={options?.slice(0, 7)}
+            options={data?.slice(0, 7)}
             selected={selected}
             handleDropDownClick={handleDropDownClick}
           />
