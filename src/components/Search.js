@@ -3,12 +3,16 @@ import styled from 'styled-components';
 import { BiSearch } from 'react-icons/bi';
 import { DropDown } from './DropDown';
 import { useGetDiseaseNameQuery } from '../services/diseaseApi';
+import useDebounce from '../hooks/useDebounce';
 
 function Search() {
-  const [hasText, setHasText] = useState(false);
   const [keyword, setKeyword] = useState('');
+  const debounced = useDebounce(keyword, 1000);
+  const [hasText, setHasText] = useState(false);
+
   const [selected, setSelected] = useState(-1);
-  const { data, isLoading } = useGetDiseaseNameQuery(keyword, { skip: !keyword });
+  const { data, isLoading } = useGetDiseaseNameQuery(debounced, { skip: !debounced });
+  console.log(data);
   // 검색어 유무 확인
   useEffect(() => {
     if (keyword === '') {
