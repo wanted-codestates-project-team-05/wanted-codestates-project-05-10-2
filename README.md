@@ -62,12 +62,11 @@ https://wanted-codestates-project-05-10-2.vercel.app/
 
 - search UI 및 반응형 구현
 
-  <img width="500" src="https://user-images.githubusercontent.com/56882147/157842542-83a7af2f-bb56-4ab7-bebc-a5f773df65ca.gif" alt="responsive" />
+  <img width="500" src="https://user-images.githubusercontent.com/56882147/157844837-07a886c2-2e70-4457-9207-924a6ae3e045.gif" alt="responsive" />
 
 - 키보드 DropDown 기능 구현
 
-  <img width="500" src="https://user-images.githubusercontent.com/56882147/157842542-83a7af2f-bb56-4ab7-bebc-a5f773df65ca.gif" alt="responsive" />
-
+  <img width="500" src="https://user-images.githubusercontent.com/56882147/157845322-822c6050-ffef-4639-81c5-101980ff01a8.gif" alt="DropDown" />
 
   - 먼저 index를 찾기 위한 selected 상태와 api 요청을 위한 keyword 상태를 만들어주었습니다.
   - input 박스에 키워드를 검색하면 api 요청을 받아 일치하는 데이터가 있으면 하단에 데이터 리스트들이
