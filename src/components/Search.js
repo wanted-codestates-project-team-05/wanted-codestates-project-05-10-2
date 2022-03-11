@@ -3,12 +3,14 @@ import styled from 'styled-components';
 import { BiSearch } from 'react-icons/bi';
 import { DropDown } from './DropDown';
 import { useGetDiseaseNameQuery } from '../services/diseaseApi';
+import useDebounce from '../hooks/useDebounce';
 
 function Search() {
-  const [hasText, setHasText] = useState(false);
   const [keyword, setKeyword] = useState('');
+  const [hasText, setHasText] = useState(false);
   const [selected, setSelected] = useState(-1);
-  const { data, isLoading } = useGetDiseaseNameQuery(keyword, { skip: !keyword });
+  const debounced = useDebounce(keyword, 1000);
+  const { data, isLoading } = useGetDiseaseNameQuery(debounced, { skip: !debounced });
   // 검색어 유무 확인
   useEffect(() => {
     if (keyword === '') {
@@ -103,6 +105,9 @@ const SearchForm = styled.div`
   justify-content: center;
   width: 60%;
   margin-top: 40px;
+  @media screen and (max-width: 820px) {
+    width: 95%;
+  }
 `;
 const SearchBar = styled.div`
   width: 100%;
@@ -111,9 +116,6 @@ const SearchBar = styled.div`
   align-items: center;
   justify-content: center;
   position: relative;
-  @media screen and (max-width: 820px) {
-    width: 100%;
-  }
 `;
 const InputBox = styled.input`
   border-radius: 42px 0 0 42px;
