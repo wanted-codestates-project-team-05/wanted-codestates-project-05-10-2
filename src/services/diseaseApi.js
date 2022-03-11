@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 // base URL과 엔드포인트들로 서비스 정의
 export const diseaseApi = createApi({
   reducerPath: 'diseaseApi',
-  baseQuery: fetchBaseQuery({ baseUrl: process.env.REACT_APP_BASEURL }),
+  baseQuery: fetchBaseQuery({ baseUrl: 'https://api.clinicaltrialskorea.com/api/v1/search-conditions/' }),
   endpoints: (builder) => ({
     getDiseaseName: builder.query({
       query: (keyword) => `?name=${keyword}`,

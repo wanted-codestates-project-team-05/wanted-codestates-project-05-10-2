@@ -28,6 +28,9 @@ const Suggest = styled.ul`
   list-style: none;
   padding-left: 0px;
   padding-bottom: 10px;
+  @media screen and (max-width: 820px) {
+    width: 95%;
+  }
 `;
 
 const Header = styled.li`
